@@ -1,6 +1,7 @@
 package com.froggy.sebakwi.oht.controller;
 
 import com.froggy.sebakwi.oht.service.OhtService;
+import com.froggy.sebakwi.oht.dto.OHTStatusCount;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;

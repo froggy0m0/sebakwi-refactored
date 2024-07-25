@@ -1,6 +1,6 @@
 package com.froggy.sebakwi.oht.service;
 
-import com.froggy.sebakwi.oht.controller.OHTStatusCount;
+import com.froggy.sebakwi.oht.dto.OHTStatusCount;
 import com.froggy.sebakwi.oht.repository.OhtRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

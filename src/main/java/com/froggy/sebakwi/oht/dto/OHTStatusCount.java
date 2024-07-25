@@ -1,4 +1,4 @@
-package com.froggy.sebakwi.oht.controller;
+package com.froggy.sebakwi.oht.dto;
 
 import static lombok.AccessLevel.PROTECTED;
 
