@@ -1,4 +1,4 @@
-package com.froggy.sebakwi.v11;
+package com.froggy.sebakwi;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
