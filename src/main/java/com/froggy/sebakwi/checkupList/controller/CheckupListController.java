@@ -3,8 +3,10 @@ package com.froggy.sebakwi.checkupList.controller;
 import com.froggy.sebakwi.checkupList.dto.ApiResponse;
 import com.froggy.sebakwi.checkupList.dto.CheckupListDTO;
 import com.froggy.sebakwi.checkupList.dto.CheckupListSearchCriteria;
+import com.froggy.sebakwi.checkupList.dto.CheckupResponse;
 import com.froggy.sebakwi.checkupList.dto.ZeroToNullIntegerEditor;
 import com.froggy.sebakwi.checkupList.service.CheckupListService;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -39,4 +42,9 @@ public class CheckupListController {
         );
     }
 
+    @GetMapping("{checkupListId}")
+    public List<CheckupResponse> getCheckup(@PathVariable Long checkupListId) {
+
+        return checkupListService.findCheckupListModal(checkupListId);
+    }
 }

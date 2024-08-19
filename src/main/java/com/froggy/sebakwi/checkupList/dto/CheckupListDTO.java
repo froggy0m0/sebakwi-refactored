@@ -3,6 +3,7 @@ package com.froggy.sebakwi.checkupList.dto;
 import static lombok.AccessLevel.PRIVATE;
 
 import com.froggy.sebakwi.checkupList.domain.CheckupList;
+import com.froggy.sebakwi.util.DateFormatterUtil;
 import com.froggy.sebakwi.wheel.domain.WheelStatus;
 import java.time.LocalDate;
 import lombok.Builder;
@@ -16,7 +17,7 @@ public class CheckupListDTO {
     private String wheelNumber;
     private int position;
     private String ohtNumber;
-    private LocalDate checkedDate;
+    private String checkedDate;
     private WheelStatus status;
     private LocalDate createdDate;
 
@@ -26,7 +27,7 @@ public class CheckupListDTO {
             .wheelNumber(cl.getWheel().getSerialNumber())
             .position(cl.getWheel().getPosition())
             .ohtNumber(cl.getWheel().getOht().getSerialNumber())
-            .checkedDate(cl.getCheckedDate())
+            .checkedDate(DateFormatterUtil.formatCheckedDate(cl.getCheckedDate()))
             .status(cl.getStatus())
             .createdDate(cl.getWheel().getCreatedDate())
             .build();

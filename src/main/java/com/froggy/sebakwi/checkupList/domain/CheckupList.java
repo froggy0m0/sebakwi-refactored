@@ -16,7 +16,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.DecimalMax;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotNull;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -29,16 +29,15 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor(access = PROTECTED)
 public class CheckupList {
 
-    @Id
-    @GeneratedValue
-    @Column(name = "checkup_list_id")
+    @Id @GeneratedValue
+    @Column(name= "checkup_list_id")
     private Long id;
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "wheel_id")
     private Wheel wheel;
 
-    private LocalDate checkedDate;
+    private LocalDateTime checkedDate;
 
     private String wheelImage;
 

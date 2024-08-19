@@ -9,7 +9,7 @@ import com.froggy.sebakwi.checkupList.dto.CheckupListSearchCriteria;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -64,6 +64,22 @@ public class CheckupListQuerydslRepository {
         return new PageImpl<>(checkupLists, pageable, size);
     }
 
+    public List<CheckupList> findCheckupListModal(Long ohtId, LocalDateTime baseTime) {
+        QCheckupList checkupList = QCheckupList.checkupList; // 메인 쿼리용 Q 클래스 인스턴스
+
+        LocalDateTime startTime = baseTime.minusSeconds(2); // 기준 시간 -2초
+        LocalDateTime endTime = baseTime.plusSeconds(2);    // 기준 시간 +2초
+
+        // OHT에 연결된 각 4개의 휠에 대한 CheckupList 데이터를 조회
+        return queryFactory
+            .selectFrom(checkupList)
+            .where(checkupList.wheel.oht.id.eq(ohtId)
+                .and(checkupList.checkedDate.between(startTime, endTime))
+            )
+            .orderBy(checkupList.wheel.id.asc())
+            .fetch();
+    }
+
     private BooleanExpression wheelSerialNumberEq(String serialNumber) {
         return serialNumber != null ? checkupList.wheel.serialNumber.eq(serialNumber) : null;
     }
@@ -84,13 +100,13 @@ public class CheckupListQuerydslRepository {
         return checkupList.status.eq(ABNORMAL);
     }
 
-    private BooleanExpression dateBetween(LocalDate startDateTime, LocalDate endDateTime) {
+    private BooleanExpression dateBetween(LocalDateTime startDateTime, LocalDateTime endDateTime) {
         if (startDateTime == null && endDateTime == null) {
             return null;
         }
 
-        LocalDate start = (startDateTime != null) ? startDateTime : LocalDate.MIN;
-        LocalDate end = (endDateTime != null) ? endDateTime : LocalDate.MAX;
+        LocalDateTime start = (startDateTime != null) ? startDateTime : LocalDateTime.MIN;
+        LocalDateTime end = (endDateTime != null) ? endDateTime : LocalDateTime.MAX;
 
         return checkupList.checkedDate.between(start, end);
     }
