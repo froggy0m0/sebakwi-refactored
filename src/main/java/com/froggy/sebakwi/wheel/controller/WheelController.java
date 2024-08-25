@@ -1,5 +1,6 @@
 package com.froggy.sebakwi.wheel.controller;
 
+import com.froggy.sebakwi.wheel.dto.MonthlyAnomalyStatus;
 import com.froggy.sebakwi.wheel.dto.ReplacementWheelResponse;
 import com.froggy.sebakwi.wheel.service.WheelService;
 import java.util.List;
@@ -20,5 +21,10 @@ public class WheelController {
     @GetMapping("/replacement")
     public List<ReplacementWheelResponse> getReplacementWheels() {
         return wheelService.findReplacementWheels();
+    }
+
+    @GetMapping("/monthly")
+    public MonthlyAnomalyStatus getMonthlyAnomalyStatus() {
+        return wheelService.findMonthlyAnomalyStatus();
     }
 }
