@@ -20,7 +20,7 @@ public class SseController {
 
     @GetMapping(value = "/monthly/sse", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     public SseEmitter connect() {
-        SseEmitter emitter = new SseEmitter();
+        SseEmitter emitter = new SseEmitter(DEFAULT_TIMEOUT);
         SseUtils.add(emitter);
 
         SseUtils.send(emitter, CONNECTION_MESSAGE);
