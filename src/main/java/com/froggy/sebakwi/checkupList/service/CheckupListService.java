@@ -7,6 +7,7 @@ import com.froggy.sebakwi.checkupList.dto.CheckupResponse;
 import com.froggy.sebakwi.checkupList.repository.CheckupListQuerydslRepository;
 import com.froggy.sebakwi.checkupList.repository.CheckupListRepository;
 import com.froggy.sebakwi.oht.repository.OhtRepository;
+import com.froggy.sebakwi.sse.Event.AnomalyDetectedEvent;
 import com.froggy.sebakwi.wheel.domain.Wheel;
 import com.froggy.sebakwi.wheel.domain.WheelStatus;
 import com.froggy.sebakwi.wheel.repository.WheelRepository;
@@ -16,6 +17,7 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,6 +31,8 @@ public class CheckupListService {
     private final CheckupListRepository checkupListRepository;
     private final WheelRepository wheelRepository;
     private final CheckupListQuerydslRepository checkupListQuerydslRepository;
+
+    private final ApplicationEventPublisher eventPublisher;
 
     private static final double MINIMUM_DIAMETER_FOR_ABRASION = 1.0;
 
@@ -58,6 +62,10 @@ public class CheckupListService {
 
         checkupListRepository.save(checkupList);
         log.info("검진 데이터가 저장되었습니다.");
+
+        if (checkupList.getStatus() == WheelStatus.ABNORMAL) {
+            eventPublisher.publishEvent(new AnomalyDetectedEvent(this));
+        }
     }
 
 public List<CheckupResponse> findCheckupListModal(Long checkupListId) {

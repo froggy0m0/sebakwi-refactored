@@ -6,11 +6,13 @@ import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 @Component
 @RequiredArgsConstructor
+@Slf4j
 public class SseUtils {
 
     private final ObjectMapper objectMapper;
@@ -39,6 +41,11 @@ public class SseUtils {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public void sendAll(Object data) {
+        log.info("현재 SSE 연결 {}개", emitters.size());
+        emitters.forEach(e -> send(e, data));
     }
 
     public String translateJson(Object data) throws JsonProcessingException {
