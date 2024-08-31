@@ -1,12 +1,16 @@
 package com.froggy.sebakwi.wheel.dto;
 
+import static lombok.AccessLevel.PRIVATE;
+
 import com.froggy.sebakwi.checkupList.domain.CheckupList;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
-@AllArgsConstructor
+@AllArgsConstructor(access = PRIVATE)
+@NoArgsConstructor(access = PRIVATE)
 @Builder
 public class WheelInfo {
 

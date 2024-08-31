@@ -39,7 +39,7 @@ public class SseUtils {
                 .name("sse")
                 .data(translateJson(data)));
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            emitters.remove(emitter);
         }
     }
 

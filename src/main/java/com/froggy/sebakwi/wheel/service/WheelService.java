@@ -2,9 +2,14 @@ package com.froggy.sebakwi.wheel.service;
 
 import com.froggy.sebakwi.checkupList.domain.CheckupList;
 import com.froggy.sebakwi.checkupList.repository.CheckupListRepository;
+import com.froggy.sebakwi.util.DateFormatterUtil;
+import com.froggy.sebakwi.util.config.RedisConfig;
 import com.froggy.sebakwi.wheel.domain.WheelStatus;
 import com.froggy.sebakwi.wheel.dto.MonthlyAnomalyStatus;
 import com.froggy.sebakwi.wheel.dto.ReplacementWheelResponse;
+import com.froggy.sebakwi.wheel.dto.WheelChartResponse;
+import com.froggy.sebakwi.wheel.dto.WheelInfo;
+import com.froggy.sebakwi.wheel.repository.WheelRedisRepository;
 import com.froggy.sebakwi.wheel.repository.WheelRepository;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -22,6 +27,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class WheelService {
 
     private final WheelRepository wheelRepository;
+    private final WheelRedisRepository wheelRedisRepository;
     private final CheckupListRepository checkupListRepository;
 
     public List<ReplacementWheelResponse> findReplacementWheels() {
@@ -45,5 +51,32 @@ public class WheelService {
 
     private static LocalDateTime getCurrentMonth() {
         return LocalDate.now().withDayOfMonth(1).atStartOfDay();
+    }
+
+    public void appendData(List<WheelInfo> wheeInfoList) {
+        String key = RedisConfig.getChartKey();
+        WheelChartResponse wheelChartResponse = wheelRedisRepository.getData(key);
+        log.info("wheel={}", wheelChartResponse);
+
+        if (wheelChartResponse == null) {
+            wheelChartResponse = WheelChartResponse.createWheelChartResponse();
+        }
+
+        wheelChartResponse.getXData()
+            .add(DateFormatterUtil.defaultDateFormat(LocalDateTime.now()));
+
+        wheelChartResponse.getYData()
+            .add(wheelChartResponse.getYData().isEmpty() ?
+                0 : wheelChartResponse.getYData().peek() + wheeInfoList.size()
+            );
+
+        wheelChartResponse.getToolTips()
+            .add(wheeInfoList);
+
+        wheelRedisRepository.saveData(key, wheelChartResponse);
+    }
+
+    public WheelChartResponse findWheelChartInfo() {
+        return wheelRedisRepository.getData(RedisConfig.getChartKey());
     }
 }
