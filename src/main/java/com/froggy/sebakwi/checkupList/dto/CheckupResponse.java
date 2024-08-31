@@ -51,7 +51,7 @@ public class CheckupResponse {
                 .wheelNumber(c.getWheel().getSerialNumber())
                 .position(c.getWheel().getPosition())
                 .ohtNumber(ohtNumber)
-                .checkedDate(DateFormatterUtil.formatCheckedDate(c.getCheckedDate()))
+                .checkedDate(DateFormatterUtil.defaultDateFormat(c.getCheckedDate()))
                 .wheelImage(c.getWheelImage())
                 .diameter(c.getDiameter())
                 .crack(c.getCrack())

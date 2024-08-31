@@ -5,7 +5,7 @@ import java.time.format.DateTimeFormatter;
 
 public class DateFormatterUtil {
 
-    public static String formatCheckedDate(LocalDateTime dateTime) {
+    public static String defaultDateFormat(LocalDateTime dateTime) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         return dateTime.format(formatter);
     }

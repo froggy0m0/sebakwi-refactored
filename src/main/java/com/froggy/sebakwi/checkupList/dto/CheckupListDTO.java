@@ -27,7 +27,7 @@ public class CheckupListDTO {
             .wheelNumber(cl.getWheel().getSerialNumber())
             .position(cl.getWheel().getPosition())
             .ohtNumber(cl.getWheel().getOht().getSerialNumber())
-            .checkedDate(DateFormatterUtil.formatCheckedDate(cl.getCheckedDate()))
+            .checkedDate(DateFormatterUtil.defaultDateFormat(cl.getCheckedDate()))
             .status(cl.getStatus())
             .createdDate(cl.getWheel().getCreatedDate())
             .build();
