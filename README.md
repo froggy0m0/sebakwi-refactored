@@ -37,8 +37,8 @@
 1. 메인 화면
 <table width="100%" border-style="non" cellspacing="0" cellpadding="100">
   <tr>
-    <td align="center"><img src="docs/main_page_1.gif" alt="main_page" width="400"></td>
-    <td align="center"><img src="docs/main_page_2.gif" alt="video_page" width="400"></td>
+    <td align="center"><img src="https://raw.githubusercontent.com/luke1546/Sebakwi/main/docs/main_page_1.gif" alt="main_page" width="400"></td>
+    <td align="center"><img src="https://raw.githubusercontent.com/luke1546/Sebakwi/main/docs/main_page_2.gif" alt="video_page" width="400"></td>
   </tr>
 
 </table>
@@ -46,23 +46,23 @@
 2. 검진 목록
 <table width="100%" border-style="non" cellspacing="0" cellpadding="100">
   <tr>
-    <td align="center"><img src="docs/checkup_list_1.gif" alt="result_page" width="400"></td>
-    <td align="center"><img src="docs/checkup_list_2.gif" alt="galery_page" width="400"></td>
+    <td align="center"><img src="https://raw.githubusercontent.com/luke1546/Sebakwi/main/docs/checkup_list_1.gif" alt="result_page" width="400"></td>
+    <td align="center"><img src="https://raw.githubusercontent.com/luke1546/Sebakwi/main/docs/checkup_list_2.gif" alt="galery_page" width="400"></td>
   </tr>
 </table>
 
 3. Unity 시뮬레이터
 <table width="100%" border-style="non" cellspacing="0" cellpadding="100">
   <tr>
-    <td align="center"><img src="docs/unity.gif" alt="result_page" width="400"></td>
-    <td align="center"><img src="docs/unity.gif" alt="galery_page" width="400"></td>
+    <td align="center"><img src="https://raw.githubusercontent.com/luke1546/Sebakwi/main/docs/unity.gif" alt="result_page" width="400"></td>
+    <td align="center"><img src="https://raw.githubusercontent.com/luke1546/Sebakwi/main/docs/unity.gif" alt="galery_page" width="400"></td>
   </tr>
 </table>
 
 <table width="100%" border-style="non" cellspacing="0" cellpadding="100">
   <tr>
-    <td align="center"><img src="docs/unity.gif" alt="result_page" width="400"></td>
-    <td align="center"><img src="docs/unity.gif" alt="galery_page" width="400"></td>
+    <td align="center"><img src="https://raw.githubusercontent.com/luke1546/Sebakwi/main/docs/unity.gif" alt="result_page" width="400"></td>
+    <td align="center"><img src="https://raw.githubusercontent.com/luke1546/Sebakwi/main/docs/unity.gif" alt="galery_page" width="400"></td>
   </tr>
 </table>
 
@@ -70,13 +70,13 @@
 
 ## 시스템 아키텍처
 
-<img src="docs/architecture.png" alt="erd" width="750" height="430">
+<img src="https://raw.githubusercontent.com/luke1546/Sebakwi/main/docs/architecture.png" alt="erd" width="750" height="430">
 
 <hr>
 
 ## ERD
 
-<img src="docs/erd.png" alt="erd" width="650" height="430">
+<img src="https://raw.githubusercontent.com/luke1546/Sebakwi/main/docs/erd.png" alt="erd" width="650" height="430">
 
 <hr>
 
