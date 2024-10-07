@@ -31,8 +31,6 @@ public class CheckupListService {
     private final WheelRepository wheelRepository;
     private final CheckupListQuerydslRepository checkupListQuerydslRepository;
 
-    private final WheelService wheelService;
-
     private final ApplicationEventPublisher eventPublisher;
 
     private static final double MINIMUM_DIAMETER_FOR_ABRASION = 1.0;
@@ -44,42 +42,44 @@ public class CheckupListService {
         return checkupListQuerydslRepository.findCheckupListByCriteria(criteria);
     }
 
+    /**
+     * 휠 검진 데이터 처리
+     * 이상 검진시 Event 호출
+     */
     @Transactional
-    public void processCheckupData(CheckupRequest data) {
+    public void processCheckupData(CheckupRequest request) {
 
-        WheelStatus wheelStatus = WheelStatus.NORMAL;
-        if ( data.isCrack() || data.isStamp() || data.getDiameter() >= 1) {
-            wheelStatus = WheelStatus.ABNORMAL;
-        }
+        // DTO 를 엔티티로 변환
+        CheckupList checkupList = createCheckupList(request);
 
-        CheckupList checkupList = createCheckupList(data, wheelStatus);
+        // 검진 데이터 저장
+        checkupListRepository.save(createCheckupList(request));
 
-        checkupListRepository.save(checkupList);
-        log.info("검진 데이터가 저장되었습니다.");
-
+        // 이상 검진시 Event 호출
         if (checkupList.getStatus() == WheelStatus.ABNORMAL) {
-            eventPublisher.publishEvent(new AnomalyDetectedEvent(this));
-
-            periodicAnomalyDataList.add(WheelInfo.fromEntity(checkupList));
-            wheelService.appendData(periodicAnomalyDataList);
-
-            periodicAnomalyDataList.clear();
+            eventPublisher.publishEvent(new AnomalyDetectedEvent(this, checkupList));
         }
     }
 
-
-    private CheckupList createCheckupList(CheckupRequest data, WheelStatus wheelStatus) {
+    private CheckupList createCheckupList(CheckupRequest request) {
         return CheckupList.builder()
-            .wheel(wheelRepository.findBySerialNumber(data.getWheelSerialNumber())
+            .wheel(wheelRepository.findBySerialNumber(request.getWheelSerialNumber())
                 .orElseThrow(() -> new NoSuchElementException("바퀴를 찾을 수 없습니다.")))
             .checkedDate(LocalDateTime.now())
-            .wheelImage(data.getWheelImage())
-            .status(wheelStatus)
-            .diameter(data.getDiameter())
-            .crack(data.isCrack())
-            .stamp(data.isStamp())
-            .abrasion(data.getDiameter() >= MINIMUM_DIAMETER_FOR_ABRASION)
+            .wheelImage(request.getWheelImage())
+            .status(determineWheelStatus(request))
+            .diameter(request.getDiameter())
+            .crack(request.isCrack())
+            .stamp(request.isStamp())
+            .abrasion(request.getDiameter() >= MINIMUM_DIAMETER_FOR_ABRASION)
             .build();
+    }
+
+    private WheelStatus determineWheelStatus(CheckupRequest request) {
+        if (request.isCrack() || request.isStamp() || request.getDiameter() >= 1) {
+            return WheelStatus.ABNORMAL;
+        }
+        return WheelStatus.NORMAL;
     }
 
     public List<CheckupResponse> findCheckupListModal(Long checkupListId) {
